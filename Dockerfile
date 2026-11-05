@@ -7,7 +7,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt \
     && useradd --create-home appuser
 
-COPY dekoder.py web.py morse.xsd ./
+COPY dekoder.py web.py koder.py morse.xsd ./
 COPY templates/ ./templates/
 USER appuser
 EXPOSE 8000

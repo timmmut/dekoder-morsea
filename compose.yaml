@@ -1,4 +1,9 @@
 services:
+  koder:
+    build: .
+    command: ["streamlit", "run", "koder.py", "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true"]
+    ports:
+      - "127.0.0.1:8501:8501"
   dekoder:
     build: .
     ports:

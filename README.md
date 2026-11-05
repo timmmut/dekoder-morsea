@@ -1,6 +1,6 @@
-# Dekoder alfabetu Morse'a
+# Koder i dekoder alfabetu Morse'a
 
-Aplikacja zespołu dekodującego: odczytuje plik XML, sprawdza jego zgodność z lokalnym schematem XSD i wyświetla tekst po dekodowaniu.
+Koder grupy A generuje i waliduje plik XML, a dekoder grupy B sprawdza go względem schematu XSD i wyświetla odkodowany tekst.
 
 ## Uruchomienie w Dockerze — Windows, macOS i Linux
 
@@ -10,7 +10,7 @@ Zainstaluj i uruchom Docker Desktop (Windows/macOS) albo Docker Engine z wtyczk�
 docker compose up --build
 ```
 
-Otwórz w przeglądarce **http://localhost:8000** i wybierz plik XML, np. `przyklad.xml`. Pierwsze uruchomienie pobierze obraz Pythona i zależności. Zatrzymaj aplikację przez `Ctrl+C`; kontener można usunąć poleceniem `docker compose down`. Jeśli port 8000 jest zajęty, zmień pierwszy numer portu w `compose.yaml`, np. na `127.0.0.1:8001:8000`, i otwórz `http://localhost:8001`.
+Otwórz **http://localhost:8501** (koder) i **http://localhost:8000** (dekoder). W koderze wpisz tekst i pobierz zweryfikowany plik XML; w dekoderze wybierz ten plik, by ponownie go zweryfikować i odkodować. Możesz też użyć `przyklad.xml`. Pierwsze uruchomienie pobierze obraz Pythona i zależności. Zatrzymaj aplikację przez `Ctrl+C`; kontenery można usunąć poleceniem `docker compose down`. Jeśli port jest zajęty, zmień port po lewej stronie odpowiedniego mapowania w `compose.yaml`, np. `127.0.0.1:8001:8000`, i użyj go w adresie przeglądarki.
 
 Wersja dockerowa działa przez przeglądarkę; Docker i przeglądarka wystarczą, nie trzeba instalować Pythona ani konfigurować Gita. Pliki XML są przesyłane lokalnie do aplikacji, przechowywane tymczasowo i usuwane po przetworzeniu. Maksymalny rozmiar żądania wynosi 1 MB. Usługa jest domyślnie dostępna tylko na komputerze, na którym ją uruchomiono.
 
@@ -42,6 +42,6 @@ Schemat znajduje się w `morse.xsd`, a przykładowa wiadomość w `przyklad.xml`
 
 Elementy są wymagane w kolejności: `sender` (nadawca), `timestamp` (data i czas w formacie `xs:dateTime`) oraz `content` (kod Morse'a). W kodzie kropka i minus oznaczają sygnały, spacje oddzielają litery, a samodzielny `/` oddziela słowa. Przykład oznacza `SOS TEST`. Sam znak ukośnika w tekście koduje się jako `-..-.`. Schemat dopuszcza w `content` wyłącznie kropki, minusy, ukośniki i zwykłe spacje.
 
-Obsługiwane są litery A–Z, polskie litery Ł i Ę, cyfry i typowe znaki interpunkcyjne wymienione w `dekoder.py`; wynik jest zapisywany wielkimi literami. Pozostałe polskie litery nie są obecnie obsługiwane. Nieznane kody i niepoprawne separatory są zgłaszane jako błędy. XML z DTD jest odrzucany.
+Koder obsługuje litery A–Z, polskie litery ĄĆĘŁŃÓŚŹŻ i cyfry. Inne znaki, w tym interpunkcję, pomija. Dekoder obsługuje te litery i cyfry oraz typowe znaki interpunkcyjne wymienione w `dekoder.py`; wynik jest zapisywany wielkimi literami. Nieznane kody i niepoprawne separatory są zgłaszane jako błędy. XML z DTD jest odrzucany.
 
 Dekoder korzysta z lokalnego pliku `morse.xsd`, niezależnie od lokalizacji schematu podanej w XML. Przykładowy plik nie zastępuje pliku przygotowanego przez zespół kodujący.
