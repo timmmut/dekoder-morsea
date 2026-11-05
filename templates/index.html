@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dekoder Morse'a</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #17243b; background: #f1f5fa; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+    main { width: min(100%, 680px); padding: clamp(24px, 5vw, 44px); background: white; border: 1px solid #e1e8f0; border-radius: 20px; box-shadow: 0 16px 50px #17345a12; }
+    .eyebrow { color: #2160c5; font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 10px 0; font-size: clamp(1.8rem, 5vw, 2.5rem); letter-spacing: -.04em; }
+    p { color: #536279; line-height: 1.55; }
+    form, .result { margin-top: 28px; }
+    label, h2 { display: block; font-size: .9rem; font-weight: 700; margin: 0 0 10px; }
+    input { width: 100%; padding: 14px; border: 1px solid #cbd7e6; border-radius: 10px; background: #f8fafc; }
+    button { margin-top: 16px; padding: 12px 20px; background: #245edb; color: white; border: 0; border-radius: 9px; font: inherit; font-weight: 650; cursor: pointer; }
+    button:hover { background: #174dbd; }
+    button:focus-visible, input:focus-visible { outline: 3px solid #84b1ff; outline-offset: 2px; }
+    .error { margin-top: 22px; padding: 14px; color: #a02d27; background: #fff0ee; border-radius: 10px; overflow-wrap: anywhere; }
+    pre { margin: 0 0 20px; padding: 16px; background: #f3f6fb; border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; }
+    footer { margin-top: 25px; color: #77869a; font-size: .82rem; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Projekt · Alfabet Morse'a</div>
+  <h1>Dekoder wiadomości</h1>
+  <p>Wybierz plik XML. Sprawdzimy go względem schematu XSD i odczytamy zapisaną wiadomość.</p>
+  <form method="post" enctype="multipart/form-data">
+    <label for="plik">Plik wiadomości XML</label>
+    <input id="plik" name="plik" type="file" accept=".xml,text/xml,application/xml" required>
+    <button type="submit">Sprawdź i dekoduj →</button>
+  </form>
+  {% if blad %}<div class="error" role="alert">{{ blad }}</div>{% endif %}
+  {% if wynik is defined %}
+  <section class="result" aria-live="polite">
+    <h2>Odkodowana wiadomość</h2>
+    <pre>{{ wynik }}</pre>
+    <h2>Kod Morse'a</h2>
+    <pre>{{ kod }}</pre>
+  </section>
+  {% endif %}
+  <footer>Walidacja XML · Dekodowanie Morse'a</footer>
+</main>
+</body>
+</html>
