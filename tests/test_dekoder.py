@@ -17,11 +17,21 @@ class TestDekoder(unittest.TestCase):
 
     def test_przyklad(self):
         kod, tekst = odczytaj_xml(Path(__file__).resolve().parents[1] / "przyklad.xml")
-        self.assertEqual(tekst, "SOS POMOCY")
+        self.assertEqual(tekst, "SOS TEST")
         self.assertTrue(kod.startswith("..."))
 
     def test_nieprawidlowy_xml(self):
-        for zawartosc in ("<inne>...</inne>", "<wiadomosc>abc</wiadomosc>", "<wiadomosc/>", "<!DOCTYPE wiadomosc><wiadomosc>...</wiadomosc>"):
+        przypadki = (
+            "<inne>...</inne>",
+            "<wiadomosc>...</wiadomosc>",
+            "<morseMessage><sender>Grupa A</sender><timestamp>zła data</timestamp><content>...</content></morseMessage>",
+            "<morseMessage><sender>Grupa A</sender><timestamp>2026-11-05T13:30:00</timestamp><content>abc</content></morseMessage>",
+            "<morseMessage><sender>Grupa A</sender><timestamp>2026-11-05T13:30:00</timestamp><content/></morseMessage>",
+            "<morseMessage><timestamp>2026-11-05T13:30:00</timestamp><content>...</content></morseMessage>",
+            "<morseMessage><timestamp>2026-11-05T13:30:00</timestamp><sender>Grupa A</sender><content>...</content></morseMessage>",
+            "<!DOCTYPE morseMessage><morseMessage><sender>A</sender><timestamp>2026-11-05T13:30:00</timestamp><content>...</content></morseMessage>",
+        )
+        for zawartosc in przypadki:
             with self.subTest(zawartosc=zawartosc), tempfile.TemporaryDirectory() as folder:
                 plik = Path(folder) / "test.xml"
                 plik.write_text(zawartosc, encoding="utf-8")
