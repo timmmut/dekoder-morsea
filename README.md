@@ -14,10 +14,22 @@ py -m venv .venv
 
 W aplikacji wybierz plik `przyklad.xml` i kliknij „Sprawdź XML i dekoduj”. Testy: `.\.venv\Scripts\python -m unittest discover -s tests`.
 
-## Proponowany format wymiany
+## Format wymiany
 
-**Ten format trzeba uzgodnić z zespołem kodującym**; nie zakładamy, że został narzucony w zadaniu. Schemat znajduje się w `wiadomosc.xsd`, a przykładowa wiadomość w `przyklad.xml`. XML zawiera jeden element `<wiadomosc>` z kodem Morse'a: kropka i minus oznaczają sygnały, białe znaki oddzielają litery, a samodzielny `/` oddziela słowa. Na przykład `... --- ... / .-` oznacza `SOS A`. Sam znak ukośnika w tekście koduje się jako `-..-.`.
+Schemat znajduje się w `morse.xsd`, a przykładowa wiadomość w `przyklad.xml`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<morseMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+							xsi:noNamespaceSchemaLocation="morse.xsd">
+	<sender>Grupa A</sender>
+	<timestamp>2026-11-05T13:30:00</timestamp>
+	<content>... --- ... / - . ... -</content>
+</morseMessage>
+```
+
+Elementy są wymagane w kolejności: `sender` (nadawca), `timestamp` (data i czas w formacie `xs:dateTime`) oraz `content` (kod Morse'a). W kodzie kropka i minus oznaczają sygnały, spacje oddzielają litery, a samodzielny `/` oddziela słowa. Przykład oznacza `SOS TEST`. Sam znak ukośnika w tekście koduje się jako `-..-.`. Schemat dopuszcza w `content` wyłącznie kropki, minusy, ukośniki i zwykłe spacje.
 
 Obsługiwane są litery A–Z, cyfry i typowe znaki interpunkcyjne wymienione w `dekoder.py`; wynik jest zapisywany wielkimi literami. Polskie litery nie są obecnie obsługiwane. Nieznane kody i niepoprawne separatory są zgłaszane jako błędy. XML z DTD jest odrzucany.
 
-Zmiany w uzgodnionym formacie wymagają dostosowania schematu, dekodera i testów. Przykładowy plik nie zastępuje pliku przygotowanego przez zespół kodujący.
+Dekoder korzysta z lokalnego pliku `morse.xsd`, niezależnie od lokalizacji schematu podanej w XML. Przykładowy plik nie zastępuje pliku przygotowanego przez zespół kodujący.

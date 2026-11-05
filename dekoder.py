@@ -6,7 +6,7 @@ import re
 from lxml import etree
 
 
-SCHEMAT = Path(__file__).with_name("wiadomosc.xsd")
+SCHEMAT = Path(__file__).with_name("morse.xsd")
 
 KODY = {
     ".-": "A", "-...": "B", "-.-.": "C", "-..": "D", ".": "E",
@@ -62,5 +62,5 @@ def odczytaj_xml(sciezka: str | Path) -> tuple[str, str]:
         schemat.assertValid(dokument)
     except (OSError, etree.LxmlError) as blad:
         raise ValueError(f"Nie udało się odczytać lub zweryfikować XML: {blad}") from blad
-    kod = dokument.getroot().text or ""
+    kod = dokument.getroot().findtext("content") or ""
     return kod.strip(), dekoduj_morse(kod)
