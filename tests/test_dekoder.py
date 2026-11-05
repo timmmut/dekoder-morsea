@@ -10,6 +10,19 @@ class TestDekoder(unittest.TestCase):
         self.assertEqual(dekoduj_morse("... --- ... / .---- ..--.."), "SOS 1?")
         self.assertEqual(dekoduj_morse("-..-."), "/")
 
+    def test_wiadomosc_z_litera_l(self):
+        xml = ('<?xml version="1.0" encoding="UTF-8"?>'
+               '<morseMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+               'xsi:noNamespaceSchemaLocation="morse.xsd">'
+               '<sender>paweł</sender><timestamp>2026-11-05T14:02:33</timestamp>'
+               '<content>.--. .- .-- . .-..- / -- .- / -. .- / .. -- .. ..-.. / '
+               '.--. .- .-- . .-..-</content></morseMessage>')
+        with tempfile.TemporaryDirectory() as folder:
+            plik = Path(folder) / "message.xml"
+            plik.write_text(xml, encoding="utf-8")
+            _, wynik = odczytaj_xml(plik)
+        self.assertEqual(wynik, "PAWEŁ MA NA IMIĘ PAWEŁ")
+
     def test_bledny_kod(self):
         for kod in ("", "... /", "/ ...", "... / / ---", ".../...", "........"):
             with self.subTest(kod=kod), self.assertRaises(ValueError):
