@@ -42,6 +42,6 @@ Schemat znajduje się w `morse.xsd`, a przykładowa wiadomość w `przyklad.xml`
 
 Elementy są wymagane w kolejności: `sender` (nadawca), `timestamp` (data i czas w formacie `xs:dateTime`) oraz `content` (kod Morse'a). W kodzie kropka i minus oznaczają sygnały, spacje oddzielają litery, a samodzielny `/` oddziela słowa. Przykład oznacza `SOS TEST`. Sam znak ukośnika w tekście koduje się jako `-..-.`. Schemat dopuszcza w `content` wyłącznie kropki, minusy, ukośniki i zwykłe spacje.
 
-Obsługiwane są litery A–Z, cyfry i typowe znaki interpunkcyjne wymienione w `dekoder.py`; wynik jest zapisywany wielkimi literami. Polskie litery nie są obecnie obsługiwane. Nieznane kody i niepoprawne separatory są zgłaszane jako błędy. XML z DTD jest odrzucany.
+Obsługiwane są litery A–Z, polskie litery Ł i Ę, cyfry i typowe znaki interpunkcyjne wymienione w `dekoder.py`; wynik jest zapisywany wielkimi literami. Pozostałe polskie litery nie są obecnie obsługiwane. Nieznane kody i niepoprawne separatory są zgłaszane jako błędy. XML z DTD jest odrzucany.
 
 Dekoder korzysta z lokalnego pliku `morse.xsd`, niezależnie od lokalizacji schematu podanej w XML. Przykładowy plik nie zastępuje pliku przygotowanego przez zespół kodujący.
